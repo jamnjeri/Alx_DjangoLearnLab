@@ -1,25 +1,15 @@
-# Query All Books by a Specific Author:
-from .models import Author, Book
+from .models import Book, Author, Library, Librarian
 
-author = Author.objects.get(name="Author Name")
-books_by_author = Book.objects.filter(author=author)
+# Query all books by a specific author.
+author_name = "Jane Doe"
+author = Author.objects.get(name=author_name)
+books = Book.objects.filter(author=author)
 
-for book in books_by_author:
-    print(book.title)
+# List all books in a library.
+books = Library.objects.get(name=library_name)
+books.all()
 
-# List All Books in a Library:
-from .models import Library
-
-library = Library.objects.get(name="Library Name")
-books_in_library = library.books.all()
-
-for book in books_in_library:
-    print(book.title)
-
-# Retrieve the Librarian for a Library:
-from .models import Library, Librarian
-
-library = Library.objects.get(name="Library Name")
+# Retrieve the librarian for a library
+library_name = "Nairobi Library"
+library = Library.objects.get(name=library_name)
 librarian = Librarian.objects.get(library=library)
-
-print(librarian.name)
