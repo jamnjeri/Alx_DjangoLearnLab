@@ -9,6 +9,31 @@ class Book(models.Model):
     def __str__(self):
         return self.title
     
+    ## Permissions and Groups Setup
+
+    ### Custom Permissions
+    # - The `Book` model has custom permissions:
+    #   - `can_view`: Allows viewing books.
+    #   - `can_create`: Allows creating new books.
+    #   - `can_edit`: Allows editing existing books.
+    #   - `can_delete`: Allows deleting books.
+
+    ### User Groups
+    # - **Editors**: Can create and edit books.
+    # - **Viewers**: Can only view books.
+    # - **Admins**: Have full control over books (view, create, edit, delete).
+
+    ### Enforcing Permissions
+    # - Permissions are enforced in views using the `@permission_required` decorator.
+    # - For example, the `edit_book` view requires `can_edit` permission to access.
+    class Meta:
+        permissions = [
+            ('can_view', 'Can View Book'),
+            ('can_create', 'Can Create Book'),
+            ('can_edit', 'Can Edit Book'),
+            ('can_delete', 'Can Delete Book'),
+        ]
+    
 # Custom User model
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
