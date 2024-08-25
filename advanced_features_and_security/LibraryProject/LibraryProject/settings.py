@@ -35,6 +35,8 @@ CSRF_COOKIE_SECURE = True            # Ensure CSSRF cookies are only sent over H
 SESSION_COOKIE_SECURE = True         # Ensure session cookies are only sent over HTTPS
 SECURE_SSL_REDIRECT = True           # Redirect all HTTP requests to HTTPS
 
+SECURE_BROWSER_XSS_FILTER = True     # Enable the browser's XSS filtering
+
 # Set the HSTS plicy to ensure the site is only accessed via HTTPS
 SECURE_HSTS_SECONDS = 31536000        # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
