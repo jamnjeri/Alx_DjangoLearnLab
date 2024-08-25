@@ -25,9 +25,23 @@ SECRET_KEY = 'django-insecure-ixmr2eux%$pj$t85&nfn2%7%s-clp%lag+ju&@7qyx2a7!zzr#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Browser-side protections
+SECURE_BROWSER_XSS_FILTER = True    
+X_FRAME_OPTIONS = 'DENY'             # To prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True   # To prevent MIME-sniffing
+
 # Enforce HTTPS for cookies
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True            # Ensure CSSRF cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True         # Ensure session cookies are only sent over HTTPS
+SECURE_SSL_REDIRECT = True           # Redirect all HTTP requests to HTTPS
+
+# Set the HSTS plicy to ensure the site is only accessed via HTTPS
+SECURE_HSTS_SECONDS = 31536000        # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True            # Tell browsers to preload the HSTS policy
+
+# Use the X-Forwarded-Proto header sent by the proxy to identify HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = []
 
@@ -53,6 +67,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_FONT_SRC = ("https://fonts.gstatic.com")
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
@@ -129,3 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Updating settings to Use the Custom User Model
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+#Handle Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
