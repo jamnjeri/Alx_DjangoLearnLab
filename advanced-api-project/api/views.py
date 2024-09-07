@@ -5,24 +5,54 @@ from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 # Create your views here.
-
-# This view lists all books or someone can create a new book
-class BookListView(generics.ListCreateAPIView):
+class ListView(generics.ListAPIView):
+    # View to list all books.
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [AllowAny]
 
-#  This view retrieves, updates or deletes a single book instance
-class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+class DetailView(generics.RetrieveAPIView):
+    # View to retrieve a specific book.
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [AllowAny]
 
-    def get_permissions(self):
-        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
-            self.permission_classes = [IsAuthenticated]
-        else:
-            self.permission_classes = [AllowAny]
-        return super().get_permissions()
+class CreateView(generics.CreateAPIView):
+    # View to create a new book.
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]
+
+class UpdateView(generics.UpdateAPIView):
+    # View to update an existing book.
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]
+
+class DeleteView(generics.DestroyAPIView):
+    # View to delete an existing book.
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]
+
+
+# This view lists all books or someone can create a new book
+# class BookListView(generics.ListCreateAPIView):
+#     queryset = Book.objects.all()
+#     serializer_class = BookSerializer
+#     permission_classes = [AllowAny]
+
+# #  This view retrieves, updates or deletes a single book instance
+# class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Book.objects.all()
+#     serializer_class = BookSerializer
+
+#     def get_permissions(self):
+#         if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE']:
+#             self.permission_classes = [IsAuthenticated]
+#         else:
+#             self.permission_classes = [AllowAny]
+#         return super().get_permissions()
 
 # ModelViewSet in DRF is a powerful and flexible view that automatically provides a full set of CRUD operations by default based on the queryset and serializer you provide
 # List:           GET /books/
