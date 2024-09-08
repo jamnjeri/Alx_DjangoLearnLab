@@ -5,6 +5,7 @@ from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet, CharFilter, NumberFilter
 from rest_framework import filters
+from django_filters import rest_framework
 
 # Define the FilterSet class for filtering books by title, author, and publication_year
 class BookFilter(FilterSet):
