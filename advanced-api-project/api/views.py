@@ -3,6 +3,18 @@ from rest_framework import generics, viewsets
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet, CharFilter, NumberFilter
+from rest_framework import filters
+
+# Define the FilterSet class for filtering books by title, author, and publication_year
+class BookFilter(FilterSet):
+    title = CharFilter(field_name='title', lookup_expr='icontains')
+    author = CharFilter(field_name='author__name', lookup_expr='icontains')  # Assuming 'author' is a related field
+    publication_year = NumberFilter(field_name='publication_year')
+
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
 
 # Create your views here.
 class ListView(generics.ListAPIView):
@@ -10,6 +22,13 @@ class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [AllowAny]
+
+    # Filtering, searching, and ordering added
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+    filterset_class = BookFilter
+    search_fields = ['title', 'author__name']  # Search by book title or author's name
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # Default ordering
 
 class DetailView(generics.RetrieveAPIView):
     # View to retrieve a specific book.
