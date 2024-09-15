@@ -1,5 +1,6 @@
 from django import forms
 from .models import Comment, Post
+from taggit.forms import TagWidget 
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -7,6 +8,11 @@ class CommentForm(forms.ModelForm):
         fields = ['content']  # Use the fields that exist in the Comment model
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(
+        widget=TagWidget(),  # Use TagWidget to handle tag inputs
+        required=False
+    )
+
     class Meta:
         model = Post
-        fields = ['title', 'content']  # Adjust this if you add more fields to the Post model
+        fields = ['title', 'content', 'tags']  # Add 'tags' to the fields
