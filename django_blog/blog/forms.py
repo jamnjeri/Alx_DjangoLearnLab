@@ -1,10 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import Comment, Post
 
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        model = Comment
+        fields = ['content']  # Use the fields that exist in the Comment model
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']  # Adjust this if you add more fields to the Post model
