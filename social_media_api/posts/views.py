@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, permissions, generics
 from .models import Post, Comment, Like
 from notifications.models import Notification
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.response import Response
-from rest_framework.generics import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 
 # Create your views here.
