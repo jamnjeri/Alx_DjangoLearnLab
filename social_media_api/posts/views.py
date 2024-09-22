@@ -1,9 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from rest_framework import viewsets, permissions, generics
 from .models import Post, Comment, Like
 from notifications.models import Notification
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404 
 from django.contrib.contenttypes.models import ContentType
 
 # Create your views here.
@@ -51,7 +52,7 @@ class LikePostView(viewsets.ViewSet):
         return Response({'status': 'already liked'}, status=400)
 
     def destroy(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)  # Use get_object_or_404 here as well
+        post = get_object_or_404(Post, pk=pk)  # Using generics.get_object_or_404 here as well
         Like.objects.filter(user=request.user, post=post).delete()
         return Response({'status': 'unliked'}, status=204)
     
