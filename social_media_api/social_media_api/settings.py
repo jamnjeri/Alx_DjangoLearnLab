@@ -1,5 +1,6 @@
 import dj_database_url
 import os
+import environs
 
 """
 Django settings for social_media_api project.
@@ -97,9 +98,12 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 #     }
 # }
 
+env=environs.Env()
+environs.Env.read_env()
+
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://postgres:Mathu@20@localhost:5432/alxsocialmediaapi',
+        default=dj_database_url.parse(env('DATABASE_URL')),
         conn_max_age=600
     )
 }
