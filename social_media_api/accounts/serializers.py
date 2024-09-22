@@ -6,11 +6,16 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)  # Explicitly define the password field
 
     class Meta:
-        model = get_user_model()  # Use the custom user model
-        fields = ['id', 'username', 'password', 'bio', 'profile_picture']
-        # password field is already set to write_only=True above
+        model = get_user_model()
+        fields = ('id', 'username', 'password', 'bio', 'profile_picture', 'followers')
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = get_user_model().objects.create_user(**validated_data)
-        Token.objects.create(user=user)
+        user = get_user_model().objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            bio=validated_data.get('bio', ''),
+            profile_picture=validated_data.get('profile_picture', None)
+        )
+        Token.objects.create(user=user)  # Create a token for the new user
         return user
